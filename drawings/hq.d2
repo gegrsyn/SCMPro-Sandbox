@@ -12,10 +12,11 @@ fw: {
   hq-users: "hq-users\n172.16.10.0/24\nWindows/Linux clients" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
   hq-servers: "hq-servers\n172.16.20.0/24\nAD, DNS, file" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
   hq-dmz: "hq-dmz\n172.16.30.0/24\nJuice Shop, published via NAT" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
+  ot-transit: "ot-transit\n172.16.40.0/29" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
 }
 internet -> fw: "untrust" {style: {font-size: 16}}
 ot: {
-  label: "OT: SBX-OT-FW-A / SBX-OT-FW-B (planned)\nmanaged by Panorama"
+  label: "OT: SBX-OT-FW-A / SBX-OT-FW-B\nmanaged by Panorama"
   style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
 }
 fw -> ot: "ot-transit 172.16.40.0/29" {style: {font-size: 16}}

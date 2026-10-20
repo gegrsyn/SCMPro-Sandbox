@@ -59,10 +59,11 @@ See [GUIDE.md](GUIDE.md) for step-by-step exercises:
 
 | Part | State |
 |---|---|
-| HQ HA pair and Branch (SCM) | built |
-| Security policy and NAT | built, being finalised |
+| HQ HA pair and Branch (SCM) | live on the internet, policy pushed |
+| OT HA pair and Panorama | built; 35-rule Purdue rule base pushed from Panorama |
+| Panorama connected to SCM | in progress |
 | Traffic generators | in progress |
-| OT segment and Panorama | in progress |
+| HQ to Branch IPsec | planned |
 
 ## License
 
