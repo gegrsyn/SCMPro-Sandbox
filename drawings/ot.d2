@@ -1,0 +1,23 @@
+direction: down
+title: "SCM Pro Sandbox: OT segment" {near: top-center; shape: text; style.font-size: 24; style.bold: true}
+
+up: {
+  label: "HQ HA pair (SCM)\nto the internet"
+  style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
+}
+panorama: {
+  label: "Panorama (planned)\nlocal management \"for compliance\"\nconnected to SCM Pro"
+  style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
+}
+ot: {
+  label: "OT: SBX-OT-FW-A / SBX-OT-FW-B (planned)\nmanaged by Panorama\nHA pair\nPurdue-model segmentation\ninternet via HQ"
+  style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
+  grid-columns: 2
+  z0: "OT-DMZ (L3.5)\n172.18.35.0/24\nhistorian mirror, patching" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
+  z1: "Site Ops (L3)\n172.18.30.0/24\nengineering, jump host" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
+  z2: "Control (L2)\n172.18.20.0/24\nHMI, SCADA" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
+  z3: "Field (L1)\n172.18.10.0/24\nPLCs: Modbus, S7, DNP3" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
+}
+up -> ot: "ot-transit 172.16.40.0/29" {style: {font-size: 16}}
+panorama -> ot: manages {style: {stroke: "#d9822b"; stroke-dash: 5; font-size: 16}}
+foot: "CC BY 4.0 · the sandbox resets to this known state" {shape: text; near: bottom-center; style.font-size: 14}

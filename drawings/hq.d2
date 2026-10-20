@@ -1,0 +1,22 @@
+direction: down
+title: "SCM Pro Sandbox: HQ" {near: top-center; shape: text; style.font-size: 24; style.bold: true}
+
+internet: {
+  label: "Internet"
+  shape: cloud; style: {font-size: 18}
+}
+fw: {
+  label: "HQ: SBX-HQ-FW-A / SBX-HQ-FW-B\nmanaged by SCM · PAN-OS 11.1\nactive/passive HA\nschedule a PAN-OS upgrade from SCM"
+  style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
+  grid-columns: 2
+  hq-users: "hq-users\n172.16.10.0/24\nWindows/Linux clients" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
+  hq-servers: "hq-servers\n172.16.20.0/24\nAD, DNS, file" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
+  hq-dmz: "hq-dmz\n172.16.30.0/24\nJuice Shop, published via NAT" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
+}
+internet -> fw: "untrust" {style: {font-size: 16}}
+ot: {
+  label: "OT: SBX-OT-FW-A / SBX-OT-FW-B (planned)\nmanaged by Panorama"
+  style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
+}
+fw -> ot: "ot-transit 172.16.40.0/29" {style: {font-size: 16}}
+foot: "CC BY 4.0 · the sandbox resets to this known state" {shape: text; near: bottom-center; style.font-size: 14}

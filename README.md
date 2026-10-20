@@ -6,7 +6,10 @@ the logs and dashboards have something in them.
 
 If you've been given a login, this repo explains what's in the lab and what's worth trying.
 
-![Topology](drawings/topology.svg)
+[![Overview](drawings/overview.svg)](https://cdn.jsdelivr.net/gh/gegrsyn/SCMPro-Sandbox@main/drawings/overview.svg)
+
+*Click any drawing to open it full size (zoomable in your browser).* Per-site detail:
+[HQ](#hq) · [Branch](#branch) · [OT](#ot)
 
 ## What's in it
 
@@ -18,6 +21,20 @@ If you've been given a login, this repo explains what's in the lab and what's wo
 
 All firewalls are VM-Series. PAN-OS versions are deliberately **not** the latest, so you can schedule and run
 upgrades yourself.
+
+## Site detail
+
+### HQ
+[![HQ](drawings/hq.svg)](https://cdn.jsdelivr.net/gh/gegrsyn/SCMPro-Sandbox@main/drawings/hq.svg)
+
+### Branch
+[![Branch](drawings/branch.svg)](https://cdn.jsdelivr.net/gh/gegrsyn/SCMPro-Sandbox@main/drawings/branch.svg)
+
+### OT
+[![OT segment](drawings/ot.svg)](https://cdn.jsdelivr.net/gh/gegrsyn/SCMPro-Sandbox@main/drawings/ot.svg)
+
+Drawings are generated from the sandbox's configuration-as-code with [D2](https://d2lang.com); the `.d2`
+sources sit next to each SVG.
 
 ## Things to try
 

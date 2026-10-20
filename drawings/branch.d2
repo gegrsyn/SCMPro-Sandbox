@@ -1,0 +1,15 @@
+direction: down
+title: "SCM Pro Sandbox: Branch" {near: top-center; shape: text; style.font-size: 24; style.bold: true}
+
+internet: {
+  label: "Internet"
+  shape: cloud; style: {font-size: 18}
+}
+fw: {
+  label: "Branch: SBX-BR-FW\nmanaged by SCM · PAN-OS 12.1\nnewer PAN-OS than HQ, on purpose"
+  style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
+  grid-columns: 2
+  br-users: "br-users\n172.17.10.0/24\nbranch clients" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
+}
+internet -> fw: "untrust" {style: {font-size: 16}}
+foot: "CC BY 4.0 · the sandbox resets to this known state" {shape: text; near: bottom-center; style.font-size: 14}

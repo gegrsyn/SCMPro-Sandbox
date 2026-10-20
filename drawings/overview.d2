@@ -1,0 +1,36 @@
+direction: down
+title: "SCM Pro Sandbox: overview" {near: top-center; shape: text; style.font-size: 24; style.bold: true}
+
+scm: {
+  label: "Strata Cloud Manager Pro\nconfig · upgrades · AIOps · posture"
+  shape: cloud; style: {font-size: 18}
+}
+internet: {
+  label: "Internet"
+  shape: cloud; style: {font-size: 18}
+}
+hq: {
+  label: "HQ: SBX-HQ-FW-A / SBX-HQ-FW-B\nmanaged by SCM · PAN-OS 11.1"
+  style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
+}
+internet -> hq: "untrust" {style: {font-size: 16}}
+scm -> hq: manages {style: {stroke: "#2f6fd6"; stroke-dash: 5; font-size: 16}}
+branch: {
+  label: "Branch: SBX-BR-FW\nmanaged by SCM · PAN-OS 12.1"
+  style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
+}
+internet -> branch: "untrust" {style: {font-size: 16}}
+scm -> branch: manages {style: {stroke: "#2f6fd6"; stroke-dash: 5; font-size: 16}}
+hq <-> branch: "IPsec (planned)" {style: {stroke: "#7c3aed"; stroke-dash: 2; font-size: 16}}
+panorama: {
+  label: "Panorama (planned)\nlocal management \"for compliance\"\nconnected to SCM Pro"
+  style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
+}
+ot: {
+  label: "OT: SBX-OT-FW-A / SBX-OT-FW-B (planned)\nmanaged by Panorama"
+  style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
+}
+hq -> ot: "ot-transit" {style: {font-size: 16}}
+panorama -> ot: manages {style: {stroke: "#d9822b"; stroke-dash: 5; font-size: 16}}
+panorama <-> scm: "telemetry · posture" {style: {stroke: "#d9822b"; stroke-dash: 5; font-size: 16}}
+foot: "CC BY 4.0 · the sandbox resets to this known state" {shape: text; near: bottom-center; style.font-size: 14}
