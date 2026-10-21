@@ -51,6 +51,16 @@ See [GUIDE.md](GUIDE.md) for step-by-step exercises:
 
 - [Connect Panorama to Strata Cloud Manager and Strata Logging Service](PANORAMA-TO-SCM.md): the two plugins, the steps, the gotchas the docs leave out, and how to verify each stage.
 
+## Known limitations
+
+- **ngfwsandbox.com is a newly registered domain (October 2026).** For roughly its first 30 days, Palo Alto Networks
+  URL filtering (and most other vendors') classifies it as *newly-registered-domain*, which best-practice profiles
+  block. If you're behind a corporate firewall and `shop.ngfwsandbox.com` won't load, that's the likely reason. Try
+  from another network, or check the category with [Test A Site](https://urlfiltering.paloaltonetworks.com/).
+- **Inbound HTTPS to the shop is not decrypted** at the firewall. TLS terminates on the DMZ reverse proxy, and the
+  firewall inspects the clear-text hop from the proxy to the app server instead (rule *DMZ Web to App Server*).
+- **The shop is intentionally vulnerable** (OWASP Juice Shop). Attack it, not anything else; it's reset regularly.
+
 ## Ground rules
 
 - **Break things freely.** The sandbox is reset to a known-good state regularly. Anything you add or change in
@@ -65,9 +75,11 @@ See [GUIDE.md](GUIDE.md) for step-by-step exercises:
 |---|---|
 | HQ HA pair and Branch (SCM) | live on the internet, policy pushed |
 | OT HA pair and Panorama | built; 35-rule Purdue rule base pushed from Panorama |
-| Panorama connected to SCM | in progress |
+| Panorama connected to SCM and Strata Logging Service | done (see the runbook) |
 | Traffic generators | running in every zone (users, servers, OT Modbus/SCADA) |
 | HQ to Branch IPsec | up, carrying branch-to-HQ file and web traffic |
+| SSL decryption | outbound (HQ, Branch, OT DMZ); inbound inspected on the proxy-to-app hop |
+| Public web app | [shop.ngfwsandbox.com](https://shop.ngfwsandbox.com) (OWASP Juice Shop) |
 
 ## License
 

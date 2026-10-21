@@ -44,6 +44,43 @@ a path has moved, search for the feature name.
 2. In Panorama, review the OT pair's rule base and its posture checks.
 3. Compare the findings: overly broad rules, missing profiles, unused rules, logging gaps.
 
+## 7. Attack the shop, then find it in the logs
+
+1. Browse to **https://shop.ngfwsandbox.com** (OWASP Juice Shop, deliberately vulnerable).
+2. Try a classic: in the login form, use `' OR 1=1--` as the email and anything as the password (SQL injection).
+3. In SCM's log viewer, find it twice: **Internet to DMZ Web** is the encrypted visit to the reverse proxy, and
+   **DMZ Web to App Server** is the clear-text hop from the proxy to the app, where threat prevention can see the
+   payload. Look for threat entries on that second hop.
+4. Discuss: why inspect the internal hop instead of decrypting inbound at the edge? What would change with SSL
+   Inbound Inspection?
+
+## 8. See what decryption adds
+
+1. Outbound user traffic is decrypted (SSL Forward Proxy). Compare the application names in the traffic logs with
+   a no-decrypt category (banking, health, government), which stays as plain `ssl`.
+2. Find the decryption log entries and check the TLS version and the certificate details.
+3. On the OT side (Panorama), the OT DMZ patch server's traffic is decrypted too: same feature, other management
+   plane.
+
+## 9. Why didn't the website get a certificate? (a true story)
+
+Publishing the shop failed four times, each time because a firewall feature was doing its job. Use the logs to
+find all four:
+
+1. **Outbound App-ID after decryption.** The web server's call to Let's Encrypt was decrypted and identified as
+   `acme-protocol`, not `ssl`, so the outbound rule didn't match. Package updates turned into `apt-get` the same way.
+   *Lesson: turning on decryption makes App-ID more specific, and your allow-lists have to follow.*
+2. **Inbound App-ID.** Let's Encrypt's validation request coming *in* was also `acme-protocol`, and the inbound rule
+   only allowed `web-browsing`/`ssl`.
+3. **URL filtering on an inbound rule.** The brand-new site was categorized `insufficient-content` and blocked
+   by the URL profile in the best-practice group. URL filtering protects *users browsing out*; a published server
+   gets a profile group without it (`sbx-inbound-server`).
+4. **URL filtering on the internal hop.** Once HTTPS worked, visitors got a *Web Page Blocked* page. The clear-text
+   request from the reverse proxy to the app still carried `Host: shop.ngfwsandbox.com`, and the app-server rule's
+   URL profile blocked it. That page travelled back out through the proxy.
+
+Find each one: the traffic log's session end reason (`policy-deny`, `threat`), the rule that matched, and the URL log.
+
 ## Reset
 
 Everything here is reset to the known-good state periodically. If you broke something and want it back
