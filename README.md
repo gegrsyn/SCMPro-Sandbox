@@ -47,6 +47,10 @@ See [GUIDE.md](GUIDE.md) for step-by-step exercises:
 - change a security rule, push it, and see who changed what in the config history;
 - compare **Zero Trust / best-practice posture** in SCM and in Panorama on the same kind of rule base.
 
+## Runbooks
+
+- [Connect Panorama to Strata Cloud Manager and Strata Logging Service](PANORAMA-TO-SCM.md): the two plugins, the steps, the gotchas the docs leave out, and how to verify each stage.
+
 ## Ground rules
 
 - **Break things freely.** The sandbox is reset to a known-good state regularly. Anything you add or change in
