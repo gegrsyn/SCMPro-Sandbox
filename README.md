@@ -62,8 +62,8 @@ See [GUIDE.md](GUIDE.md) for step-by-step exercises:
 | HQ HA pair and Branch (SCM) | live on the internet, policy pushed |
 | OT HA pair and Panorama | built; 35-rule Purdue rule base pushed from Panorama |
 | Panorama connected to SCM | in progress |
-| Traffic generators | in progress |
-| HQ to Branch IPsec | planned |
+| Traffic generators | running in every zone (users, servers, OT Modbus/SCADA) |
+| HQ to Branch IPsec | up, carrying branch-to-HQ file and web traffic |
 
 ## License
 
