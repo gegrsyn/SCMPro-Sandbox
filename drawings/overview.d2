@@ -1,36 +1,48 @@
 direction: down
-title: "SCM Pro Sandbox: overview" {near: top-center; shape: text; style.font-size: 24; style.bold: true}
+title: "SCM Pro Sandbox" {near: top-center; shape: text; style.font-size: 24; style.bold: true}
 
-scm: {
-  label: "Strata Cloud Manager Pro\nconfig · upgrades · AIOps · posture"
-  shape: cloud; style: {font-size: 18}
+you: {
+  label: "You\n(browser)"
+  shape: person; style: {font-size: 18}
 }
 internet: {
   label: "Internet"
   shape: cloud; style: {font-size: 18}
 }
-hq: {
-  label: "HQ: SBX-HQ-FW-A / SBX-HQ-FW-B\nmanaged by SCM · PAN-OS 11.1"
-  style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
+console: {
+  label: "Strata Cloud Manager\n(cloud console)"
+  shape: rectangle; style: {fill: "#2f6fd6"; font-color: "#ffffff"; border-radius: 8; font-size: 20}
 }
-internet -> hq: "untrust" {style: {font-size: 16}}
-scm -> hq: manages {style: {stroke: "#2f6fd6"; stroke-dash: 5; font-size: 16}}
-branch: {
-  label: "Branch: SBX-BR-FW\nmanaged by SCM · PAN-OS 12.1"
-  style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
+scm: {
+  label: "Managed by Strata Cloud Manager"
+  style: {stroke: "#2f6fd6"; stroke-width: 3; fill: "#ffffff"; border-radius: 12; font-size: 22; bold: true}
+  hq: {
+    label: "HQ\nSCM-HQ-FW-A / SCM-HQ-FW-B\nPAN-OS 11.1"
+    style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
+  }
+  branch: {
+    label: "Branch\nSCM-BRANCH-FW\nPAN-OS 12.1"
+    style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
+  }
 }
-internet -> branch: "untrust" {style: {font-size: 16}}
-scm -> branch: manages {style: {stroke: "#2f6fd6"; stroke-dash: 5; font-size: 16}}
-hq <-> branch: "IPsec" {style: {stroke: "#7c3aed"; stroke-dash: 2; font-size: 16}}
-panorama: {
-  label: "Panorama\nlocal management \"for compliance\"\nconnected to SCM Pro"
-  style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
+pano: {
+  label: "Managed by Panorama"
+  style: {stroke: "#d9822b"; stroke-width: 3; fill: "#ffffff"; border-radius: 12; font-size: 22; bold: true}
+  panorama: {
+    label: "Panorama\nmanages the OT pair\nits policy is visible in SCM"
+    style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
+  }
+  ot: {
+    label: "OT\nPANORAMA-OT-FW-A / PANORAMA-OT-FW-B\ninternet via HQ"
+    style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
+  }
 }
-ot: {
-  label: "OT: SBX-OT-FW-A / SBX-OT-FW-B\nmanaged by Panorama"
-  style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
-}
-hq -> ot: "ot-transit" {style: {font-size: 16}}
-panorama -> ot: manages {style: {stroke: "#d9822b"; stroke-dash: 5; font-size: 16}}
-panorama <-> scm: "telemetry · posture" {style: {stroke: "#d9822b"; stroke-dash: 5; font-size: 16}}
+you -> console: "sign in" {style: {font-size: 16}}
+you -> internet: {style: {font-size: 16}}
+internet -> scm.hq {style: {font-size: 16}}
+internet -> scm.branch {style: {font-size: 16}}
+scm.hq <-> scm.branch: "IPsec" {style: {stroke: "#7c3aed"; stroke-dash: 2; font-size: 16}}
+scm.hq -> pano.ot {style: {font-size: 16}}
+pano.panorama -> console: "connected to SCM" {style: {stroke: "#d9822b"; stroke-dash: 5; font-size: 16}}
+you -> pano.panorama: "GUI access (coming soon)" {style: {stroke: "#9aa3af"; stroke-dash: 4; font-size: 16}}
 foot: "CC BY 4.0 · the sandbox resets to this known state" {shape: text; near: bottom-center; style.font-size: 14}
