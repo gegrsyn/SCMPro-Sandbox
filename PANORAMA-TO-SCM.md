@@ -101,10 +101,21 @@ It was written while doing this for real in the SCM Pro sandbox, so it includes 
    Healthy: `CloudConnector plugin is enabled` and `Connectivity to region … and license check is a success`.
    If it says `CloudConnector plugin is disabled`, step 2 hasn't been done, even when connectivity passes.
 
-5. **Other switches you'll see:**
-   - `request plugins cloudconnector sync enable|disable` is "Cloud Sync". It's listed separately in the status line and isn't covered by the SCM docs.
-   - `enable cloudngfw`, `show plugins cloudconnector regions|tenants|resources|tenant-dg-mapping` are for Cloud NGFW (AWS/Azure) integration, so not needed here.
-   - `request plugins cloudconnector pycurl-verbosity` turns on debug logging of the plugin's HTTP calls.
+5. **Decide which direction you need.** The two "sync" names are misleading, so here is what each one does:
+
+   | Switch | Direction | What it gives you |
+   |---|---|---|
+   | `enable basic` (step 2) | Panorama → SCM | SCM can see Panorama's config and policy: posture, best-practice and AIOps views. **This alone is enough for visibility.** In testing, the Panorama rule base appeared in SCM and was analysed without either sync switch. |
+   | `request plugins cloudconnector sync enable` ("Cloud Sync") | **SCM → Panorama** | SCM's **Policy Optimizer** and **Config Cleanup** can act on the Panorama rule base. Accepted recommendations are written to Panorama's **candidate** config ("Update Panorama Rulebase"), and a Panorama admin still commits them. Needs plugin 3.0.0+ and Strata Logging Service with product usage enabled. **Commit on Panorama afterwards** (a `commit force` is fine) to start the analysis. |
+   | `request plugins cloudconnector scm-panorama-config-sync enable` | **SCM → Panorama** | SCM pushes **snippet-based configuration into Panorama device groups and templates**, i.e. authoring in SCM and deploying through Panorama. Some documentation lists **plugin 3.1+** for this. |
+
+   > **Gotcha:** "Cloud Sync is disabled" in the status line does *not* mean Panorama isn't connected to SCM. It only
+   > means SCM can't write recommendations back. `show plugins cloudconnector status` doesn't report
+   > `scm-panorama-config-sync` at all.
+
+   Other commands you'll see but don't need here:
+   - `enable cloudngfw`, `show plugins cloudconnector regions|tenants|resources|tenant-dg-mapping`: Cloud NGFW (AWS/Azure) integration.
+   - `request plugins cloudconnector pycurl-verbosity`: debug logging of the plugin's HTTP calls.
 
 6. Telemetry and the device certificate from the prerequisites are what SCM uses. Nothing else needs configuring on Panorama.
 
@@ -117,7 +128,8 @@ It was written while doing this for real in the SCM Pro sandbox, so it includes 
 | Firewall → SLS | firewall CLI: `request logging-service-forwarding status` | your Customer ID, the region, "Successfully fetched Logging Service customer info" |
 | Firewall → SLS log channel | network: firewall management IP → SLS receptor on TCP 3978 | several long-lived sessions (default connection count 5) |
 | Firewall → Panorama | firewall CLI: `show logging-status` | Panorama collector `Active`, sequence numbers advancing |
-| Panorama ↔ SCM | Panorama CLI: `show plugins cloudconnector status` | "CloudConnector plugin is **enabled**" **and** "Connectivity to region … and license check is a success" |
+| Panorama ↔ SCM | Panorama CLI: `show plugins cloudconnector status` | "CloudConnector plugin is **enabled**" **and** "Connectivity to region … and license check is a success"; plus "Cloud Sync is enabled" if you want SCM → Panorama |
+| Panorama policy in SCM | SCM security posture / Policy Optimizer | the Panorama device groups and rules listed and analysed |
 | Telemetry | SCM → Insights → NGFW → Status and Monitoring | the firewalls counted under *Sending Telemetry* |
 | Logs | SCM → Log Viewer, filtered to a Panorama-managed firewall | recent traffic and threat entries |
 
