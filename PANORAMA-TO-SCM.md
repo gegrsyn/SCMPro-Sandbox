@@ -67,14 +67,46 @@ It was written while doing this for real in the SCM Pro sandbox, so it includes 
 ## Part B: Strata Cloud Manager (CloudConnector)
 
 1. **Plugin.** CloudConnector is built into Panorama 11.0.1 and later. Upgrade it from Panorama → Plugins if a newer version is listed.
-2. **Enable config sync** from the CLI:
+2. **Turn the plugin on. This is the master switch.** From the **CLI**:
+
+   ```
+   request plugins cloudconnector enable basic
+   ```
+
+   Expected output: `CloudConnector plugin has been enabled.` It also provisions a service admin
+   (`__cloudconnector-schedule`) and queues a Panorama commit by itself. Check it finishes: `show jobs id <n>`.
+
+   > **Gotcha:** this command only works in the CLI. Sent through the XML API, it fails with an empty error.
+
+3. **Turn on config sync**, which is a separate feature inside the plugin:
 
    ```
    request plugins cloudconnector scm-panorama-config-sync enable
    ```
 
-   > **Gotcha:** this is a `request` command and is documented as needing no commit. In testing it still left a candidate change, a new password hash for the plugin's built-in `__cloudconnector` account. **Check for pending changes and commit them** (Commit → Commit to Panorama).
-3. Telemetry and the device certificate from the prerequisites are what SCM uses. There's nothing else to configure on Panorama.
+   > **Gotcha: you need both commands.** The Panorama/SCM docs mention only `enable basic`. Other guidance often
+   > gives only `scm-panorama-config-sync enable`. The config-sync command reports success even while the plugin
+   > itself is off, and then nothing syncs. Run `enable basic` first, then the config-sync command.
+
+   > **Gotcha:** the config-sync command is a `request` command and is documented as needing no commit. In testing
+   > it still left a candidate change, a new password hash for the plugin's built-in `__cloudconnector` account.
+   > **Check for pending changes and commit them** (Commit → Commit to Panorama).
+
+4. **Check the switches:**
+
+   ```
+   show plugins cloudconnector status
+   ```
+
+   Healthy: `CloudConnector plugin is enabled` and `Connectivity to region … and license check is a success`.
+   If it says `CloudConnector plugin is disabled`, step 2 hasn't been done, even when connectivity passes.
+
+5. **Other switches you'll see:**
+   - `request plugins cloudconnector sync enable|disable` is "Cloud Sync". It's listed separately in the status line and isn't covered by the SCM docs.
+   - `enable cloudngfw`, `show plugins cloudconnector regions|tenants|resources|tenant-dg-mapping` are for Cloud NGFW (AWS/Azure) integration, so not needed here.
+   - `request plugins cloudconnector pycurl-verbosity` turns on debug logging of the plugin's HTTP calls.
+
+6. Telemetry and the device certificate from the prerequisites are what SCM uses. Nothing else needs configuring on Panorama.
 
 ## Verification
 
@@ -85,7 +117,7 @@ It was written while doing this for real in the SCM Pro sandbox, so it includes 
 | Firewall → SLS | firewall CLI: `request logging-service-forwarding status` | your Customer ID, the region, "Successfully fetched Logging Service customer info" |
 | Firewall → SLS log channel | network: firewall management IP → SLS receptor on TCP 3978 | several long-lived sessions (default connection count 5) |
 | Firewall → Panorama | firewall CLI: `show logging-status` | Panorama collector `Active`, sequence numbers advancing |
-| Panorama ↔ SCM | Panorama CLI: `show plugins cloudconnector status` | "Connectivity to region … and license check is a success" |
+| Panorama ↔ SCM | Panorama CLI: `show plugins cloudconnector status` | "CloudConnector plugin is **enabled**" **and** "Connectivity to region … and license check is a success" |
 | Telemetry | SCM → Insights → NGFW → Status and Monitoring | the firewalls counted under *Sending Telemetry* |
 | Logs | SCM → Log Viewer, filtered to a Panorama-managed firewall | recent traffic and threat entries |
 
@@ -104,6 +136,7 @@ It was written while doing this for real in the SCM Pro sandbox, so it includes 
 | Cloud Services status `fail: Exception 'not Before'` | Panorama account not verified yet | Part A, steps 2–3 (OTP from the SLS app) |
 | "Failed to fetch ingest/query FQDN for customer (curl failed)" with no network denies | stale management-server state after certificates | restart the management server |
 | SLS says the plugin is too old despite a new version | cached data | wait about 30 minutes |
+| SCM doesn't show Panorama's config; status says "CloudConnector plugin is disabled" | only `scm-panorama-config-sync enable` was run | `request plugins cloudconnector enable basic` (CLI), let its commit finish, then re-run the config-sync enable |
 | `request logging-service-forwarding certificate fetch` → "Thermite certificate is used for CDL communication" | not an error | the device certificate is used; no separate SLS certificate is needed |
 
 ## After an upgrade: the API key certificate
