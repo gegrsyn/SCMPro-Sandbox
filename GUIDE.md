@@ -81,6 +81,22 @@ find all four:
 
 Find each one: the traffic log's session end reason (`policy-deny`, `threat`), the rule that matched, and the URL log.
 
+## 10. Clean up with Policy Optimizer and Config Cleanup
+
+The rule bases are built to give these tools something to say. Most rules carry real traffic; some never will.
+
+1. In SCM, open **Policy Optimizer** for the HQ and Branch firewalls. Find:
+   - **Rules with no hits:** the guest kiosk, legacy FTP, partner extranet and branch printer rules (their hosts are
+     gone), plus the P2P and remote-support blocks (nobody tries).
+   - **Rules with `any` application:** *HQ Users to Internet* and *Branch Users to Internet* are catch-alls under
+     the focused App-ID rules (GenAI, collaboration, SaaS, storage, social, streaming, dev tools, web). See which
+     apps they still match, and convert them.
+2. Open **Config Cleanup** and find the unused objects: decommissioned servers, an old printer and a vendor range,
+   unused services, the `decom-servers` address group and the `sbx-legacy-file-transfer` application group.
+3. Do the same for the OT pair (Panorama, visible in SCM): a disabled rule, a shadowed duplicate, a rule pointing
+   at a host that no longer exists, and broad "temporary" rules.
+4. Apply one recommendation, push, and confirm the hit counts afterwards. `Reset` puts everything back.
+
 ## Reset
 
 Everything here is reset to the known-good state periodically. If you broke something and want it back

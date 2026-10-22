@@ -46,6 +46,7 @@ See [GUIDE.md](GUIDE.md) for step-by-step exercises:
 - fail over the HA pair;
 - change a security rule, push it, and see who changed what in the config history;
 - compare **Zero Trust / best-practice posture** in SCM and in Panorama on the same kind of rule base.
+- work through **Policy Optimizer** and **Config Cleanup**: rules with no hits, `any`-application catch-alls and unused objects, left in place on purpose.
 
 ## Runbooks
 
@@ -74,7 +75,7 @@ See [GUIDE.md](GUIDE.md) for step-by-step exercises:
 | Part | State |
 |---|---|
 | HQ HA pair and Branch (SCM) | live on the internet, policy pushed |
-| OT HA pair and Panorama | built; 35-rule Purdue rule base pushed from Panorama |
+| OT HA pair and Panorama | built; 36-rule Purdue rule base pushed from Panorama |
 | Panorama connected to SCM and Strata Logging Service | done (see the runbook) |
 | Traffic generators | running in every zone (users, servers, OT Modbus/SCADA) |
 | HQ to Branch IPsec | up, carrying branch-to-HQ file and web traffic |
