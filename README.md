@@ -43,8 +43,8 @@ Access is limited to a few countries and is logged. Invites expire after *(TBD)*
 
 ## Good to know
 
-- **It resets.** The sandbox goes back to a known-good state regularly. Break things freely, but don't expect your
-  changes to last.
+- **Break things freely.** That's what it's for. It can be put back to a known-good state, so if something is broken
+  for good, say so. Your changes may disappear when that happens.
 - **It's shared.** Other people may be logged in. An upgrade or a push you start affects everyone.
 - **Nothing real goes in.** No production data, passwords or customer configuration.
 - **Panorama changes show up in SCM late.** SCM picks up Panorama's configuration on a schedule, not when you commit,
