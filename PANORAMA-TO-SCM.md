@@ -127,6 +127,7 @@ It was written while doing this for real in the SCM Pro sandbox, so it includes 
 | Panorama ↔ SLS | SLS app → Inventory → Panorama Appliances | Panorama shown as connected |
 | Firewall → SLS | firewall CLI: `request logging-service-forwarding status` | your Customer ID, the region, "Successfully fetched Logging Service customer info" |
 | Firewall → SLS log channel | network: firewall management IP → SLS receptor on TCP 3978 | several long-lived sessions (default connection count 5) |
+| Enhanced application logs → SLS | firewall CLI: `show iot eal conn`, **Dataplane** block | `Cloud connection: connected`, connections established = attempts, `number of bytes sent` growing |
 | Firewall → Panorama | firewall CLI: `show logging-status` | Panorama collector `Active`, sequence numbers advancing |
 | Panorama ↔ SCM | Panorama CLI: `show plugins cloudconnector status` | "CloudConnector plugin is **enabled**" **and** "Connectivity to region … and license check is a success"; plus "Cloud Sync is enabled" if you want SCM → Panorama |
 | Panorama policy in SCM | SCM security posture / Policy Optimizer | the Panorama device groups and rules listed and analysed |
@@ -134,6 +135,12 @@ It was written while doing this for real in the SCM Pro sandbox, so it includes 
 | Logs | SCM → Log Viewer, filtered to a Panorama-managed firewall | recent traffic and threat entries |
 
 > **Gotcha: misleading log status.** On Panorama-managed firewalls, `show logging-status` lists extra receivers named `lr-cms0` / `lr-cms1` as **Inactive** even when SLS forwarding works. They are not the SLS channel. Check `request logging-service-forwarding status` and the TCP 3978 sessions instead.
+
+> **Gotcha: "Enhanced Application Logging: Error".** On PAN-OS 12.1 the cloud logging status (GUI and `request logging-service-forwarding status`) can show the enhanced application log ingest as failed while the logs upload fine. It describes the management-plane connection, which carries no logs. Check the **Dataplane** block of `show iot eal conn` (the command also works on 11.1, where the GUI shows no EAL status).
+
+> **Gotcha: duplicate logging unticks "Enable cloud logging".** With *Enable duplicate logging (cloud and on-premise)* set, the *Enable cloud logging* box shows unchecked. That's expected: the two are either/or, and duplicate logging already includes cloud. Ticking it switches duplicate logging off and Panorama stops receiving logs.
+
+> **Gotcha: decryption logs follow the decryption rule.** Decryption logs use the log forwarding profile on the *decryption* rule, not the security rule. Without one they stay on the firewall.
 
 > **Gotcha: telemetry count.** SCM's *Sending Telemetry* tile counts firewalls only. Panorama sends telemetry too, every 5 minutes, but isn't included in that number.
 
@@ -149,6 +156,7 @@ It was written while doing this for real in the SCM Pro sandbox, so it includes 
 | "Failed to fetch ingest/query FQDN for customer (curl failed)" with no network denies | stale management-server state after certificates | restart the management server |
 | SLS says the plugin is too old despite a new version | cached data | wait about 30 minutes |
 | SCM doesn't show Panorama's config; status says "CloudConnector plugin is disabled" | only `scm-panorama-config-sync enable` was run | `request plugins cloudconnector enable basic` (CLI), let its commit finish, then re-run the config-sync enable |
+| Firewalls stop trying a cloud service after a few days of denies | an outbound filter in front of the management interface blocks a Palo Alto app (here `paloalto-cloud-identity`) | allow the app, then `debug software restart process management-server` so the firewall retries |
 | `request logging-service-forwarding certificate fetch` → "Thermite certificate is used for CDL communication" | not an error | the device certificate is used; no separate SLS certificate is needed |
 
 ## After an upgrade: the API key certificate
