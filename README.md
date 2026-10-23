@@ -35,7 +35,7 @@ You only need a web browser. There are two doors:
 To get access:
 
 1. **Ask for an invite** *(process to be decided)*. Use your work email; personal addresses (Gmail, Outlook.com…) aren't accepted.
-2. **Accept the SCM invite** from your inbox. The tenant is called *SCM Pro Sandbox*.
+2. **Accept the SCM invite** from your inbox. The tenant is called *RyBelo - SCM Pro*.
 3. **For Panorama or a firewall**, open `access.ngfwsandbox.com`, enter your work email, type the code you receive,
    and pick the device from the list.
 
