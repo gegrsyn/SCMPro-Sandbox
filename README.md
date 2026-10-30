@@ -21,39 +21,18 @@ Everything is VM-Series, with all security subscriptions on. Logs go to Strata L
 
 ## How to get in
 
+> **Current handout: v1.0 (2026-10-30).** The handout has the links, who can sign in, and the step-by-step. It isn't
+> published here: ask the person who shared this page with you. If yours is older than this, ask for the new one.
+
 You only need a web browser. There are two doors:
 
-| To open | Go to | Sign in with |
-|---|---|---|
-| **Strata Cloud Manager** (HQ, Branch, and the Panorama view) | [stratacloudmanager.paloaltonetworks.com](https://stratacloudmanager.paloaltonetworks.com) | the login you already use for Palo Alto Networks (the Customer Support Portal): your work email with your password or SSO, once you've been added to the sandbox tenant *RyBelo - SCM Pro* |
-| **Panorama and the firewalls** (web console or SSH) | the links below | your **work email** (you get a one-time code), then the shared sandbox login |
+| To open | Sign in with |
+|---|---|
+| **Strata Cloud Manager** (HQ, Branch, and the Panorama view) | the login you already use for Palo Alto Networks (the Customer Support Portal): your work email with your password or SSO, once you've been added to the sandbox tenant |
+| **Panorama and the firewalls** (web console or SSH in the browser) | your **work email** (you get a one-time code), then the shared sandbox login |
 
-| Device | Web console | SSH in the browser |
-|---|---|---|
-| Panorama | [panorama.ngfwsandbox.com](https://panorama.ngfwsandbox.com) | [ssh-panorama.ngfwsandbox.com](https://ssh-panorama.ngfwsandbox.com) |
-| SCM-HQ-FW-A | [hq-fw-a.ngfwsandbox.com](https://hq-fw-a.ngfwsandbox.com) | [ssh-hq-fw-a.ngfwsandbox.com](https://ssh-hq-fw-a.ngfwsandbox.com) |
-| SCM-HQ-FW-B | [hq-fw-b.ngfwsandbox.com](https://hq-fw-b.ngfwsandbox.com) | [ssh-hq-fw-b.ngfwsandbox.com](https://ssh-hq-fw-b.ngfwsandbox.com) |
-| SCM-BRANCH-FW | [branch-fw.ngfwsandbox.com](https://branch-fw.ngfwsandbox.com) | [ssh-branch-fw.ngfwsandbox.com](https://ssh-branch-fw.ngfwsandbox.com) |
-| PANORAMA-OT-FW-A | [ot-fw-a.ngfwsandbox.com](https://ot-fw-a.ngfwsandbox.com) | [ssh-ot-fw-a.ngfwsandbox.com](https://ssh-ot-fw-a.ngfwsandbox.com) |
-| PANORAMA-OT-FW-B | [ot-fw-b.ngfwsandbox.com](https://ot-fw-b.ngfwsandbox.com) | [ssh-ot-fw-b.ngfwsandbox.com](https://ssh-ot-fw-b.ngfwsandbox.com) |
-
-To get access:
-
-1. **Ask the person who shared this page with you.** Only work email addresses from approved companies are
-   accepted; personal addresses (Gmail, Outlook.com…) aren't. You'll get the shared sandbox login from them too.
-2. **For SCM**, there's nothing to accept. Once you've been added, sign in with the login you already use for
-   Palo Alto Networks (Customer Support Portal, your work email) and pick the tenant *RyBelo - SCM Pro*.
-3. **For Panorama or a firewall**, open its link, enter your work email, and type the code you receive. Then sign in
-   with the sandbox login. In the SSH page, use the same username and password and leave the key empty.
-
-Once you've entered a code, the other links won't ask for one again for several hours. Access works from the United States
-only, not from cloud or hosting networks, and every sign-in is logged.
-
-The sandbox login can do almost everything: change and commit configuration, policy and networking. It can't manage
-admins, licences, software, or the management settings.
-
-**If you get a Cloudflare error page after entering your code,** the sandbox is probably switched off. It runs on demand, so
-ask the person who shared this page.
+Only work email addresses from approved companies are accepted. Access is limited to the United States, not from
+cloud or hosting networks, and every sign-in is logged.
 
 ## Good to know
 
@@ -67,7 +46,7 @@ ask the person who shared this page.
   deliberately vulnerable app. Attack it, and nothing else.
 - **Your own firewall may block the shop.** ngfwsandbox.com was registered in October 2026, and URL filtering often
   blocks newly registered domains for about a month. If the shop won't load from work, try another network.
-- **PAN-OS versions are deliberately not the latest,** so you can try an upgrade.
+- **PAN-OS versions are deliberately not the latest,** so you can try an upgrade from SCM.
 
 ## Worth looking at
 
