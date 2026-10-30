@@ -21,7 +21,7 @@ Everything is VM-Series, with all security subscriptions on. Logs go to Strata L
 
 ## How to get in
 
-> **Current handout: v1.1 (2026-10-30).** The handout has the links, who can sign in, and the step-by-step. It isn't
+> **Current handout: v1.2 (2026-10-30).** The handout has the links, who can sign in, and the step-by-step. It isn't
 > published here: ask the person who shared this page with you. If yours is older than this, ask for the new one.
 
 You only need a web browser. There are two doors:
@@ -40,8 +40,6 @@ cloud or hosting networks, and every sign-in is logged.
   for good, say so. Your changes may disappear when that happens.
 - **It's shared.** Other people may be logged in. An upgrade or a push you start affects everyone.
 - **Nothing real goes in.** No production data, passwords or customer configuration.
-- **Panorama changes show up in SCM late.** SCM picks up Panorama's configuration on a schedule, not when you commit,
-  so expect a delay of hours. Changes made in SCM itself show up right away.
 - **The shop is meant to be hacked.** [shop.ngfwsandbox.com](https://shop.ngfwsandbox.com) runs OWASP Juice Shop, a
   deliberately vulnerable app. Attack it, and nothing else.
 - **Your own firewall may block the shop.** ngfwsandbox.com was registered in October 2026, and URL filtering often
