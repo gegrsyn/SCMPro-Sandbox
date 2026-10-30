@@ -21,25 +21,38 @@ Everything is VM-Series, with all security subscriptions on. Logs go to Strata L
 
 ## How to get in
 
-> [!IMPORTANT]
-> **Not live yet.** This section describes how access will work. Until this note is gone, ask the person who
-> shared this page with you.
-
 You only need a web browser. There are two doors:
 
 | To open | Go to | Sign in with |
 |---|---|---|
-| **Strata Cloud Manager** (HQ, Branch, and the Panorama view) | [stratacloudmanager.paloaltonetworks.com](https://stratacloudmanager.paloaltonetworks.com) | your own Palo Alto Networks account, once you've been invited to the sandbox tenant |
-| **Panorama and the firewall web consoles** | `access.ngfwsandbox.com` *(placeholder)* | your **work email**: you get a one-time code, then the sandbox login |
+| **Strata Cloud Manager** (HQ, Branch, and the Panorama view) | [stratacloudmanager.paloaltonetworks.com](https://stratacloudmanager.paloaltonetworks.com) | your own Palo Alto Networks account, once you've been invited to the sandbox tenant *RyBelo - SCM Pro* |
+| **Panorama and the firewalls** (web console or SSH) | the links below | your **work email** (you get a one-time code), then the shared sandbox login |
+
+| Device | Web console | SSH in the browser |
+|---|---|---|
+| Panorama | [panorama.ngfwsandbox.com](https://panorama.ngfwsandbox.com) | [ssh-panorama.ngfwsandbox.com](https://ssh-panorama.ngfwsandbox.com) |
+| SCM-HQ-FW-A | [hq-fw-a.ngfwsandbox.com](https://hq-fw-a.ngfwsandbox.com) | [ssh-hq-fw-a.ngfwsandbox.com](https://ssh-hq-fw-a.ngfwsandbox.com) |
+| SCM-HQ-FW-B | [hq-fw-b.ngfwsandbox.com](https://hq-fw-b.ngfwsandbox.com) | [ssh-hq-fw-b.ngfwsandbox.com](https://ssh-hq-fw-b.ngfwsandbox.com) |
+| SCM-BRANCH-FW | [branch-fw.ngfwsandbox.com](https://branch-fw.ngfwsandbox.com) | [ssh-branch-fw.ngfwsandbox.com](https://ssh-branch-fw.ngfwsandbox.com) |
+| PANORAMA-OT-FW-A | [ot-fw-a.ngfwsandbox.com](https://ot-fw-a.ngfwsandbox.com) | [ssh-ot-fw-a.ngfwsandbox.com](https://ssh-ot-fw-a.ngfwsandbox.com) |
+| PANORAMA-OT-FW-B | [ot-fw-b.ngfwsandbox.com](https://ot-fw-b.ngfwsandbox.com) | [ssh-ot-fw-b.ngfwsandbox.com](https://ssh-ot-fw-b.ngfwsandbox.com) |
 
 To get access:
 
-1. **Ask for an invite** *(process to be decided)*. Use your work email; personal addresses (Gmail, Outlook.com…) aren't accepted.
-2. **Accept the SCM invite** from your inbox. The tenant is called *RyBelo - SCM Pro*.
-3. **For Panorama or a firewall**, open `access.ngfwsandbox.com`, enter your work email, type the code you receive,
-   and pick the device from the list.
+1. **Ask the person who shared this page with you.** Only work email addresses from approved companies are
+   accepted; personal addresses (Gmail, Outlook.com…) aren't. You'll get the shared sandbox login from them too.
+2. **For SCM**, accept the invite from your inbox.
+3. **For Panorama or a firewall**, open its link, enter your work email, and type the code you receive. Then sign in
+   with the sandbox login. In the SSH page, use the same username and password and leave the key empty.
 
-Access is limited to a few countries and is logged. Invites expire after *(TBD)* days.
+Once you've entered a code, the other links won't ask for one again for several hours. Access works from the United States
+only, not from cloud or hosting networks, and every sign-in is logged.
+
+The sandbox login can do almost everything: change and commit configuration, policy and networking. It can't manage
+admins, licences, software, or the management settings.
+
+**If you get a Cloudflare error page after entering your code,** the sandbox is probably switched off. It runs on demand, so
+ask the person who shared this page.
 
 ## Good to know
 
