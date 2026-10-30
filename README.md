@@ -25,7 +25,7 @@ You only need a web browser. There are two doors:
 
 | To open | Go to | Sign in with |
 |---|---|---|
-| **Strata Cloud Manager** (HQ, Branch, and the Panorama view) | [stratacloudmanager.paloaltonetworks.com](https://stratacloudmanager.paloaltonetworks.com) | your own Palo Alto Networks account, once you've been invited to the sandbox tenant *RyBelo - SCM Pro* |
+| **Strata Cloud Manager** (HQ, Branch, and the Panorama view) | [stratacloudmanager.paloaltonetworks.com](https://stratacloudmanager.paloaltonetworks.com) | your own Palo Alto Networks account, once you've been added to the sandbox tenant *RyBelo - SCM Pro* |
 | **Panorama and the firewalls** (web console or SSH) | the links below | your **work email** (you get a one-time code), then the shared sandbox login |
 
 | Device | Web console | SSH in the browser |
@@ -41,7 +41,8 @@ To get access:
 
 1. **Ask the person who shared this page with you.** Only work email addresses from approved companies are
    accepted; personal addresses (Gmail, Outlook.com…) aren't. You'll get the shared sandbox login from them too.
-2. **For SCM**, accept the invite from your inbox.
+2. **For SCM**, there's nothing to accept. Once you've been added, sign in with your Palo Alto Networks account
+   and pick the tenant *RyBelo - SCM Pro*.
 3. **For Panorama or a firewall**, open its link, enter your work email, and type the code you receive. Then sign in
    with the sandbox login. In the SSH page, use the same username and password and leave the key empty.
 
