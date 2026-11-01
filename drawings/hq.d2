@@ -1,23 +1,49 @@
 direction: down
-title: "SCM Pro Sandbox: HQ" {near: top-center; shape: text; style.font-size: 24; style.bold: true}
+classes: {
+  fw-scm: {style: {fill: "#2f6fd6"; font-color: "#ffffff"; font-size: 17; bold: true; border-radius: 8}}
+  fw-pano: {style: {fill: "#d9822b"; font-color: "#ffffff"; font-size: 17; bold: true; border-radius: 8}}
+  zone-scm: {style: {fill: "#eef4fd"; stroke: "#2f6fd6"; border-radius: 6; font-size: 15}}
+  zone-pano: {style: {fill: "#fef6ee"; stroke: "#d9822b"; border-radius: 6; font-size: 15}}
+  host: {style: {fill: "#ffffff"; stroke: "#6b7280"; font-size: 13; border-radius: 4}}
+  site-scm: {style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; font-size: 14}}
+  site-pano: {style: {fill: "#fdf1e6"; stroke: "#d9822b"; font-size: 14}}
+  link: {style: {font-size: 13; font-color: "#374151"}}
+  vpn: {style: {stroke: "#7c3aed"; stroke-dash: 3; font-size: 13}}
+}
+title: "HQ: managed by Strata Cloud Manager" {near: top-center; shape: text; style: {font-size: 26; bold: true}}
 
-internet: {
-  label: "Internet"
-  shape: cloud; style: {font-size: 18}
+fw: "SCM-HQ-FW-A / SCM-HQ-FW-B\nactive-passive HA, PAN-OS 11.1\nlogical router sbx-lr" {class: fw-scm}
+internet: "Internet" {shape: cloud; style.font-size: 16}
+untrust: "zone: untrust\npublic /29" {class: zone-scm}
+internet <-> untrust
+untrust <-> fw: "ethernet1/1" {class: link}
+hq-users: "zone: hq-users\n172.16.10.0/24" {
+  class: zone-scm
+  sbx-hq-client: "sbx-hq-client\n172.16.10.10  (+ .11 .70)\nuser PCs: web, SaaS and AI apps,\nfile shares, test threats; .70 is\nan IT admin" {class: host}
 }
-fw: {
-  label: "HQ\nSCM-HQ-FW-A / SCM-HQ-FW-B\nPAN-OS 11.1\nactive/passive HA\nschedule a PAN-OS upgrade from SCM"
-  style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
-  grid-columns: 2
-  hq-users: "hq-users\n172.16.10.0/24\nWindows/Linux clients" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
-  hq-servers: "hq-servers\n172.16.20.0/24\nAD, DNS, file" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
-  hq-dmz: "hq-dmz\n172.16.30.0/24\nJuice Shop, published via NAT" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
-  ot-transit: "ot-transit\n172.16.40.0/29" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
+fw <-> hq-users: "ethernet1/2\n172.16.10.1" {class: link}
+hq-servers: "zone: hq-servers\n172.16.20.0/24" {
+  class: zone-scm
+  sbx-hq-srv: "sbx-hq-srv\n172.16.20.10\nAD, DNS, file share, intranet" {class: host}
 }
-internet -> fw: "untrust" {style: {font-size: 16}}
-ot: {
-  label: "OT\nPANORAMA-OT-FW-A / PANORAMA-OT-FW-B"
-  style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
+fw <-> hq-servers: "ethernet1/3\n172.16.20.1" {class: link}
+hq-dmz: "zone: hq-dmz\n172.16.30.0/24" {
+  class: zone-scm
+  sbx-hq-web: "sbx-hq-web\n172.16.30.10\nweb shop (OWASP Juice Shop),\npublished to the internet" {class: host}
 }
-fw -> ot: "ot-transit 172.16.40.0/29" {style: {font-size: 16}}
-foot: "CC BY 4.0 · this is the known-good state the sandbox can be restored to" {shape: text; near: bottom-center; style.font-size: 14}
+fw <-> hq-dmz: "ethernet1/4\n172.16.30.1" {class: link}
+plant-transit: "zone: plant-transit\n172.16.40.0/29" {
+  class: zone-scm
+}
+fw <-> plant-transit: "ethernet1/7\n172.16.40.1" {class: link}
+plant: "Plant pair (managed by Panorama)\nPANO-PLANT-FW-A / PANO-PLANT-FW-B\nethernet1/1 172.16.40.2\nnetworks 172.18.0.0/16" {class: site-pano}
+plant-transit <-> plant
+branch: "Branch\n172.17.10.0/24" {class: site-scm}
+fw <-> branch: "IPsec, tunnel.10 169.254.10.1\nzone vpn" {class: vpn}
+routes: |md
+  **Routes (sbx-lr)**
+  - 0.0.0.0/0 → ISP gateway (untrust)
+  - 172.18.0.0/16 → 172.16.40.2 (Plant pair)
+  - 172.17.10.0/24 → tunnel.10 (IPsec to Branch)
+|
+foot: "CC BY 4.0 · the known-good state the sandbox can be restored to" {shape: text; near: bottom-center; style.font-size: 13}

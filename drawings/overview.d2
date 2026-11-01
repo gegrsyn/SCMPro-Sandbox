@@ -1,48 +1,27 @@
 direction: down
-title: "SCM Pro Sandbox" {near: top-center; shape: text; style.font-size: 24; style.bold: true}
+classes: {
+  fw-scm: {style: {fill: "#2f6fd6"; font-color: "#ffffff"; font-size: 17; bold: true; border-radius: 8}}
+  fw-pano: {style: {fill: "#d9822b"; font-color: "#ffffff"; font-size: 17; bold: true; border-radius: 8}}
+  zone-scm: {style: {fill: "#eef4fd"; stroke: "#2f6fd6"; border-radius: 6; font-size: 15}}
+  zone-pano: {style: {fill: "#fef6ee"; stroke: "#d9822b"; border-radius: 6; font-size: 15}}
+  host: {style: {fill: "#ffffff"; stroke: "#6b7280"; font-size: 13; border-radius: 4}}
+  site-scm: {style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; font-size: 14}}
+  site-pano: {style: {fill: "#fdf1e6"; stroke: "#d9822b"; font-size: 14}}
+  link: {style: {font-size: 13; font-color: "#374151"}}
+  vpn: {style: {stroke: "#7c3aed"; stroke-dash: 3; font-size: 13}}
+}
+title: "SCM Pro Sandbox" {near: top-center; shape: text; style: {font-size: 26; bold: true}}
 
-you: {
-  label: "You\n(browser)"
-  shape: person; style: {font-size: 18}
-}
-internet: {
-  label: "Internet"
-  shape: cloud; style: {font-size: 18}
-}
-console: {
-  label: "Strata Cloud Manager\n(cloud console)"
-  shape: rectangle; style: {fill: "#2f6fd6"; font-color: "#ffffff"; border-radius: 8; font-size: 20}
-}
-scm: {
-  label: "Managed by Strata Cloud Manager"
-  style: {stroke: "#2f6fd6"; stroke-width: 3; fill: "#ffffff"; border-radius: 12; font-size: 22; bold: true}
-  hq: {
-    label: "HQ\nSCM-HQ-FW-A / SCM-HQ-FW-B\nPAN-OS 11.1"
-    style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
-  }
-  branch: {
-    label: "Branch\nSCM-BRANCH-FW\nPAN-OS 12.1"
-    style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
-  }
-}
-pano: {
-  label: "Managed by Panorama"
-  style: {stroke: "#d9822b"; stroke-width: 3; fill: "#ffffff"; border-radius: 12; font-size: 22; bold: true}
-  panorama: {
-    label: "Panorama\nmanages the OT pair\nits policy is visible in SCM"
-    style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
-  }
-  ot: {
-    label: "OT\nPANORAMA-OT-FW-A / PANORAMA-OT-FW-B\ninternet via HQ"
-    style: {fill: "#fdf1e6"; stroke: "#d9822b"; border-radius: 8; font-size: 20}
-  }
-}
-you -> console: "sign in" {style: {font-size: 16}}
-you -> internet: {style: {font-size: 16}}
-internet -> scm.hq {style: {font-size: 16}}
-internet -> scm.branch {style: {font-size: 16}}
-scm.hq <-> scm.branch: "IPsec" {style: {stroke: "#7c3aed"; stroke-dash: 2; font-size: 16}}
-scm.hq -> pano.ot {style: {font-size: 16}}
-pano.panorama -> console: "connected to SCM" {style: {stroke: "#d9822b"; stroke-dash: 5; font-size: 16}}
-you -> pano.panorama: "web console + SSH (Cloudflare Access)" {style: {stroke: "#9aa3af"; stroke-dash: 4; font-size: 16}}
-foot: "CC BY 4.0 · this is the known-good state the sandbox can be restored to" {shape: text; near: bottom-center; style.font-size: 14}
+internet: "Internet" {shape: cloud; style.font-size: 16}
+key: |md
+  **Blue:** managed by Strata Cloud Manager  
+  **Orange:** managed by Panorama, which is connected to SCM
+| {near: top-right}
+hq: "HQ\nSCM-HQ-FW-A / SCM-HQ-FW-B\nPAN-OS 11.1\nhq-users 172.16.10.0/24\nhq-servers 172.16.20.0/24\nhq-dmz 172.16.30.0/24\nplant-transit 172.16.40.0/29" {class: site-scm}
+internet <-> hq
+hq <-> branch: "IPsec" {class: vpn}
+branch: "Branch\nSCM-BRANCH-FW\nPAN-OS 12.1\nbr-users 172.17.10.0/24" {class: site-scm}
+internet <-> branch
+plant: "Plant\nPANO-PLANT-FW-A / PANO-PLANT-FW-B\nHA pair\nplant-dmz 172.18.35.0/24\nplant-office 172.18.30.0/24\ncontrol 172.18.20.0/24\nproduction 172.18.10.0/24\nfacilities 172.18.40.0/24" {class: site-pano}
+hq <-> plant: "plant-transit 172.16.40.0/29" {class: link}
+foot: "CC BY 4.0 · the known-good state the sandbox can be restored to" {shape: text; near: bottom-center; style.font-size: 13}

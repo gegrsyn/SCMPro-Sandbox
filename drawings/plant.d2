@@ -1,0 +1,49 @@
+direction: down
+classes: {
+  fw-scm: {style: {fill: "#2f6fd6"; font-color: "#ffffff"; font-size: 17; bold: true; border-radius: 8}}
+  fw-pano: {style: {fill: "#d9822b"; font-color: "#ffffff"; font-size: 17; bold: true; border-radius: 8}}
+  zone-scm: {style: {fill: "#eef4fd"; stroke: "#2f6fd6"; border-radius: 6; font-size: 15}}
+  zone-pano: {style: {fill: "#fef6ee"; stroke: "#d9822b"; border-radius: 6; font-size: 15}}
+  host: {style: {fill: "#ffffff"; stroke: "#6b7280"; font-size: 13; border-radius: 4}}
+  site-scm: {style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; font-size: 14}}
+  site-pano: {style: {fill: "#fdf1e6"; stroke: "#d9822b"; font-size: 14}}
+  link: {style: {font-size: 13; font-color: "#374151"}}
+  vpn: {style: {stroke: "#7c3aed"; stroke-dash: 3; font-size: 13}}
+}
+title: "Plant: managed by Panorama" {near: top-center; shape: text; style: {font-size: 26; bold: true}}
+
+fw: "PANO-PLANT-FW-A / PANO-PLANT-FW-B\nHA pair\nvirtual router plant-vr" {class: fw-pano}
+up: "HQ firewalls (SCM)\nethernet1/7 172.16.40.1\nthe way to the internet" {class: site-scm}
+hq-transit: "zone: hq-transit\n172.16.40.0/29" {class: zone-pano}
+up <-> hq-transit
+hq-transit <-> fw: "ethernet1/1\n172.16.40.2" {class: link}
+plant-dmz: "zone: plant-dmz\n172.18.35.0/24" {
+  class: zone-pano
+  sbx-plant-dmz: "sbx-plant-dmz\n172.18.35.11  (+ .10 .12 .13)\nhistorian mirror, patch server,\njump host" {class: host}
+}
+fw <-> plant-dmz: "ethernet1/2\n172.18.35.1" {class: link}
+plant-office: "zone: plant-office\n172.18.30.0/24" {
+  class: zone-pano
+  sbx-plant-office: "sbx-plant-office\n172.18.30.10  (+ .5 .11 .20 .30 .40 .50 .60)\nengineering, AD/DNS/NTP,\nhistorian, video recorder, access\ncontrol" {class: host}
+}
+fw <-> plant-office: "ethernet1/3\n172.18.30.1" {class: link}
+control: "zone: control\n172.18.20.0/24" {
+  class: zone-pano
+  sbx-plant-control: "sbx-plant-control\n172.18.20.20  (+ .10 .11 .21 .22)\nHMIs, SCADA, OPC server + MQTT\nbroker, alarms" {class: host}
+}
+fw <-> control: "ethernet1/4\n172.18.20.1" {class: link}
+production: "zone: production\n172.18.10.0/24" {
+  class: zone-pano
+  sbx-plant-production: "sbx-plant-production\n172.18.10.10  (+ .11 .20 .21 .30 .40)\nPLCs (S7, EtherNet/IP), robot\ncell, IIoT gateway, drive, safety\nPLC" {class: host}
+}
+fw <-> production: "ethernet1/5\n172.18.10.1" {class: link}
+facilities: "zone: facilities\n172.18.40.0/24" {
+  class: zone-pano
+  sbx-plant-facilities: "sbx-plant-facilities\n172.18.40.10  (+ .20 .21 .30 .31 .40 .41)\nBMS supervisor, HVAC controllers\n(BACnet), cameras, badge readers" {class: host}
+}
+fw <-> facilities: "ethernet1/8\n172.18.40.1" {class: link}
+routes: |md
+  **Routes (plant-vr)**
+  - 0.0.0.0/0 → 172.16.40.1 (HQ)
+|
+foot: "CC BY 4.0 · the known-good state the sandbox can be restored to" {shape: text; near: bottom-center; style.font-size: 13}

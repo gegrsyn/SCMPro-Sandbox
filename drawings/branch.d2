@@ -1,15 +1,32 @@
 direction: down
-title: "SCM Pro Sandbox: Branch" {near: top-center; shape: text; style.font-size: 24; style.bold: true}
+classes: {
+  fw-scm: {style: {fill: "#2f6fd6"; font-color: "#ffffff"; font-size: 17; bold: true; border-radius: 8}}
+  fw-pano: {style: {fill: "#d9822b"; font-color: "#ffffff"; font-size: 17; bold: true; border-radius: 8}}
+  zone-scm: {style: {fill: "#eef4fd"; stroke: "#2f6fd6"; border-radius: 6; font-size: 15}}
+  zone-pano: {style: {fill: "#fef6ee"; stroke: "#d9822b"; border-radius: 6; font-size: 15}}
+  host: {style: {fill: "#ffffff"; stroke: "#6b7280"; font-size: 13; border-radius: 4}}
+  site-scm: {style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; font-size: 14}}
+  site-pano: {style: {fill: "#fdf1e6"; stroke: "#d9822b"; font-size: 14}}
+  link: {style: {font-size: 13; font-color: "#374151"}}
+  vpn: {style: {stroke: "#7c3aed"; stroke-dash: 3; font-size: 13}}
+}
+title: "Branch: managed by Strata Cloud Manager" {near: top-center; shape: text; style: {font-size: 26; bold: true}}
 
-internet: {
-  label: "Internet"
-  shape: cloud; style: {font-size: 18}
+fw: "SCM-BRANCH-FW\nPAN-OS 12.1\nlogical router sbx-lr" {class: fw-scm}
+internet: "Internet" {shape: cloud; style.font-size: 16}
+untrust: "zone: untrust\npublic /29" {class: zone-scm}
+internet <-> untrust
+untrust <-> fw: "ethernet1/1" {class: link}
+br-users: "zone: br-users\n172.17.10.0/24" {
+  class: zone-scm
+  sbx-br-client: "sbx-br-client\n172.17.10.10  (+ .11)\nbranch user PCs: web, test\nthreats, HQ file share and\nintranet over the VPN" {class: host}
 }
-fw: {
-  label: "Branch\nSCM-BRANCH-FW\nPAN-OS 12.1\nnewer PAN-OS than HQ, on purpose"
-  style: {fill: "#e8f1fd"; stroke: "#2f6fd6"; border-radius: 8; font-size: 20}
-  grid-columns: 2
-  br-users: "br-users\n172.17.10.0/24\nbranch clients" {style: {fill: "#f8fafc"; stroke: "#9aa3af"; stroke-dash: 3; font-size: 18}}
-}
-internet -> fw: "untrust" {style: {font-size: 16}}
-foot: "CC BY 4.0 · this is the known-good state the sandbox can be restored to" {shape: text; near: bottom-center; style.font-size: 14}
+fw <-> br-users: "ethernet1/2\n172.17.10.1" {class: link}
+hq: "HQ\n172.16.0.0/16" {class: site-scm}
+fw <-> hq: "IPsec, tunnel.10 169.254.10.2\nzone vpn" {class: vpn}
+routes: |md
+  **Routes (sbx-lr)**
+  - 0.0.0.0/0 → ISP gateway (untrust)
+  - 172.16.0.0/16 → tunnel.10 (IPsec to HQ)
+|
+foot: "CC BY 4.0 · the known-good state the sandbox can be restored to" {shape: text; near: bottom-center; style.font-size: 13}

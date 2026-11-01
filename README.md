@@ -9,19 +9,19 @@ dashboards and recommendations have something to show.
 ## What's in it
 
 The firewall names tell you who manages them: **SCM-…** firewalls are managed by Strata Cloud Manager,
-**PANORAMA-…** firewalls by Panorama.
+**PANO-…** firewalls by Panorama.
 
 | Site | Firewalls | Managed by | What's there |
 |---|---|---|---|
 | **HQ** | SCM-HQ-FW-A, SCM-HQ-FW-B (HA pair) | Strata Cloud Manager | users, servers, and a public web shop |
 | **Branch** | SCM-BRANCH-FW | Strata Cloud Manager | users; VPN to HQ; a newer PAN-OS than HQ |
-| **OT** | PANORAMA-OT-FW-A, PANORAMA-OT-FW-B (HA pair) | Panorama, connected to SCM | a factory-style network behind HQ |
+| **Plant** | PANO-PLANT-FW-A, PANO-PLANT-FW-B (HA pair) | Panorama, connected to SCM | a manufacturing site behind HQ: office, control, production floor, building systems |
 
 Everything is VM-Series, with all security subscriptions on. Logs go to Strata Logging Service.
 
 ## How to get in
 
-> **Current handout: v1.2 (2026-10-30).** The handout has the links, who can sign in, and the step-by-step. It isn't
+> **Current handout: v1.3 (2026-10-30).** The handout has the links, who can sign in, and the step-by-step. It isn't
 > published here: ask the person who shared this page with you. If yours is older than this, ask for the new one.
 
 You only need a web browser. There are two doors:
@@ -48,11 +48,11 @@ cloud or hosting networks, and every sign-in is logged.
 
 ## Worth looking at
 
-- **The two ways to manage firewalls** side by side: the HQ and Branch firewalls in SCM, and the OT firewalls in
+- **The two ways to manage firewalls** side by side: the HQ and Branch firewalls in SCM, and the Plant firewalls in
   Panorama and in SCM's view of Panorama.
 - **HA:** the HQ pair is active/passive and fails over when it loses its internet path.
-- **Logs with something in them:** web browsing, SaaS and AI apps, file shares, VPN traffic, factory protocols (Modbus,
-  S7, DNP3), plus test malware, phishing and DNS threats.
+- **Logs with something in them:** web browsing, SaaS and AI apps, file shares, VPN traffic, industrial and building protocols
+  (Modbus, S7, EtherNet/IP, MQTT, BACnet, camera streams), plus test malware, phishing and DNS threats.
 - **Decryption:** outbound web traffic is decrypted, so you see real application names and URLs. Banking, health and
   government sites are not decrypted.
 - **Policy Optimizer and cleanup:** some rules and objects are unused on purpose, and some rules still allow
@@ -62,7 +62,7 @@ cloud or hosting networks, and every sign-in is logged.
 ## Site detail
 
 <details>
-<summary><b>HQ</b>: users, servers, web shop, and the way out for OT</summary>
+<summary><b>HQ</b>: users, servers, web shop, and the way out for Plant</summary>
 
 [![HQ](drawings/hq.svg)](https://cdn.jsdelivr.net/gh/gegrsyn/SCMPro-Sandbox@main/drawings/hq.svg)
 </details>
@@ -74,9 +74,9 @@ cloud or hosting networks, and every sign-in is logged.
 </details>
 
 <details>
-<summary><b>OT</b>: the Panorama-managed factory network</summary>
+<summary><b>Plant</b>: the Panorama-managed manufacturing site</summary>
 
-[![OT](drawings/ot.svg)](https://cdn.jsdelivr.net/gh/gegrsyn/SCMPro-Sandbox@main/drawings/ot.svg)
+[![Plant](drawings/plant.svg)](https://cdn.jsdelivr.net/gh/gegrsyn/SCMPro-Sandbox@main/drawings/plant.svg)
 </details>
 
 Click a drawing to open it full size. They're generated from the sandbox's own configuration with
