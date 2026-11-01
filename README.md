@@ -38,13 +38,12 @@ cloud or hosting networks, and every sign-in is logged.
 
 - **Break things freely.** That's what it's for. It can be put back to a known-good state, so if something is broken
   for good, say so. Your changes may disappear when that happens.
-- **It's shared.** Other people may be logged in. An upgrade or a push you start affects everyone.
+- **It's shared.** Other people may be logged in. A push you start affects everyone.
 - **Nothing real goes in.** No production data, passwords or customer configuration.
 - **The shop is meant to be hacked.** [shop.ngfwsandbox.com](https://shop.ngfwsandbox.com) runs OWASP Juice Shop, a
   deliberately vulnerable app. Attack it, and nothing else.
 - **Your own firewall may block the shop.** ngfwsandbox.com was registered in October 2026, and URL filtering often
   blocks newly registered domains for about a month. If the shop won't load from work, try another network.
-- **PAN-OS versions are deliberately not the latest,** so you can try an upgrade from SCM.
 
 ## Worth looking at
 
