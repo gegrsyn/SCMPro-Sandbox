@@ -24,7 +24,7 @@ plant-dmz: "zone: plant-dmz\n172.18.35.0/24" {
 fw <-> plant-dmz: "ethernet1/2\n172.18.35.1" {class: link}
 plant-office: "zone: plant-office\n172.18.30.0/24" {
   class: zone-pano
-  sbx-plant-office: "sbx-plant-office\n172.18.30.10  (+ .5 .11 .20 .30 .40 .50 .60)\nengineering, AD/DNS/NTP,\nhistorian, video recorder, access\ncontrol" {class: host}
+  sbx-plant-office: "sbx-plant-office\n172.18.30.10  (+ .5 .11 .20 .30 .40 .45 .50 .60)\nengineering, AD/DNS/NTP,\nhistorian, BMS supervisor, video\nrecorder, access control" {class: host}
 }
 fw <-> plant-office: "ethernet1/3\n172.18.30.1" {class: link}
 control: "zone: control\n172.18.20.0/24" {
@@ -39,7 +39,7 @@ production: "zone: production\n172.18.10.0/24" {
 fw <-> production: "ethernet1/5\n172.18.10.1" {class: link}
 facilities: "zone: facilities\n172.18.40.0/24" {
   class: zone-pano
-  sbx-plant-facilities: "sbx-plant-facilities\n172.18.40.10  (+ .20 .21 .30 .31 .40 .41)\nBMS supervisor, HVAC controllers\n(BACnet), cameras, badge readers" {class: host}
+  sbx-plant-facilities: "sbx-plant-facilities\n172.18.40.10  (+ .20 .21 .30 .31 .40 .41)\nfacilities workstation, HVAC\ncontrollers (BACnet), cameras,\nbadge readers" {class: host}
 }
 fw <-> facilities: "ethernet1/8\n172.18.40.1" {class: link}
 routes: |md

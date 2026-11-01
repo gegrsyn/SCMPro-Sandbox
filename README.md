@@ -21,7 +21,7 @@ Everything is VM-Series, with all security subscriptions on. Logs go to Strata L
 
 ## How to get in
 
-> **Current handout: v1.3 (2026-10-30).** The handout has the links, who can sign in, and the step-by-step. It isn't
+> **Current handout: v1.4 (2026-11-01).** The handout has the links, who can sign in, and the step-by-step. It isn't
 > published here: ask the person who shared this page with you. If yours is older than this, ask for the new one.
 
 You only need a web browser. There are two doors:
