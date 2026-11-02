@@ -1,4 +1,4 @@
-direction: down
+direction: right
 classes: {
   fw-scm: {style: {fill: "#2f6fd6"; font-color: "#ffffff"; font-size: 17; bold: true; border-radius: 8}}
   fw-pano: {style: {fill: "#d9822b"; font-color: "#ffffff"; font-size: 17; bold: true; border-radius: 8}}
@@ -10,18 +10,21 @@ classes: {
   link: {style: {font-size: 13; font-color: "#374151"}}
   vpn: {style: {stroke: "#7c3aed"; stroke-dash: 3; font-size: 13}}
 }
-title: "SCM Pro Sandbox" {near: top-center; shape: text; style: {font-size: 26; bold: true}}
 
-internet: "Internet" {shape: cloud; style.font-size: 16}
+
+*.style.font-size: 26
+(* -> *)[*].style.font-size: 22
 key: |md
-  **Blue:** managed by Strata Cloud Manager  
-  **Orange:** managed by Panorama, which is connected to SCM
-| {near: top-right}
-hq: "HQ\nSCM-HQ-FW-A / SCM-HQ-FW-B\nPAN-OS 11.1\nhq-users 172.16.10.0/24\nhq-servers 172.16.20.0/24\nhq-dmz 172.16.30.0/24\nplant-transit 172.16.40.0/29" {class: site-scm}
-internet <-> hq
-hq <-> branch: "IPsec" {class: vpn}
-branch: "Branch\nSCM-BRANCH-FW\nPAN-OS 12.1\nbr-users 172.17.10.0/24" {class: site-scm}
-internet <-> branch
-plant: "Plant\nPANO-PLANT-FW-A / PANO-PLANT-FW-B\nHA pair\nplant-dmz 172.18.35.0/24\nplant-office 172.18.30.0/24\ncontrol 172.18.20.0/24\nproduction 172.18.10.0/24\nfacilities 172.18.40.0/24" {class: site-pano}
-hq <-> plant: "plant-transit 172.16.40.0/29" {class: link}
+  **Blue:** managed by Strata Cloud Manager · **Orange:** managed by Panorama  
+  Panorama is connected to SCM, so its policy shows there too
+| {near: top-center; style.font-size: 22}
+scm: "Strata Cloud Manager\n(cloud)" {shape: cloud; style: {fill: "#ffffff"; stroke: "#2f6fd6"; font-size: 26; bold: true}}
+hq: "HQ\nSCM-HQ-FW-A\nSCM-HQ-FW-B" {class: site-scm}
+scm -> hq: manages {class: link; style.stroke: "#2f6fd6"}
+branch: "Branch\nSCM-BRANCH-FW" {class: site-scm}
+scm -> branch: manages {class: link; style.stroke: "#2f6fd6"}
+panorama: PANORAMA {class: fw-pano}
+scm -> panorama: connected {class: link; style.stroke-dash: 3}
+plant: "Plant\nPANO-PLANT-FW-A\nPANO-PLANT-FW-B" {class: site-pano}
+panorama -> plant: manages {class: link; style.stroke: "#d9822b"}
 foot: "CC BY 4.0 · the known-good state the sandbox can be restored to" {shape: text; near: bottom-center; style.font-size: 13}
