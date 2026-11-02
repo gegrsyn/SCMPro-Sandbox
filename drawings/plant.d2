@@ -21,12 +21,12 @@ plant-dmz: "zone: plant-dmz\n172.18.35.0/24" {
   class: zone-pano
   sbx-plant-dmz: "sbx-plant-dmz\n172.18.35.11  (+ .10 .12 .13)\nhistorian mirror, patch server,\njump host" {class: host}
 }
-fw <-> plant-dmz: "ethernet1/2\n172.18.35.1" {class: link}
+plant-dmz <-> fw: "ethernet1/2\n172.18.35.1" {class: link}
 plant-office: "zone: plant-office\n172.18.30.0/24" {
   class: zone-pano
   sbx-plant-office: "sbx-plant-office\n172.18.30.10  (+ .5 .11 .20 .30 .40 .45 .50 .60)\nengineering, AD/DNS/NTP,\nhistorian, BMS supervisor, video\nrecorder, access control" {class: host}
 }
-fw <-> plant-office: "ethernet1/3\n172.18.30.1" {class: link}
+plant-office <-> fw: "ethernet1/3\n172.18.30.1" {class: link}
 control: "zone: control\n172.18.20.0/24" {
   class: zone-pano
   sbx-plant-control: "sbx-plant-control\n172.18.20.20  (+ .10 .11 .21 .22)\nHMIs, SCADA, OPC server + MQTT\nbroker, alarms" {class: host}
