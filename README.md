@@ -4,6 +4,12 @@ Real Palo Alto Networks firewalls you can log into and change, managed two ways 
 **Strata Cloud Manager (SCM)** and **Panorama**. They have live traffic in them, so the logs,
 dashboards and recommendations have something to show.
 
+> [!IMPORTANT]
+> ## 📄 Current handout: v1.4.1
+> **Released 2026-11-02.** Check the version printed on your handout. If yours is older, ask the person
+> who shared this page with you for the new one. The handout has the links, who can sign in, and the
+> step-by-step. It isn't published here.
+
 [![Sandbox overview](drawings/overview.svg)](https://cdn.jsdelivr.net/gh/gegrsyn/SCMPro-Sandbox@main/drawings/overview.svg)
 
 ## What's in it
@@ -21,8 +27,7 @@ Everything is VM-Series, with all security subscriptions on. Logs go to Strata L
 
 ## How to get in
 
-> **Current handout: v1.4.1 (2026-11-02).** The handout has the links, who can sign in, and the step-by-step. It isn't
-> published here: ask the person who shared this page with you. If yours is older than this, ask for the new one.
+The links and the step-by-step are in the handout (see the version box at the top of this page).
 
 You only need a web browser. There are two doors:
 
